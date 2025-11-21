@@ -31,7 +31,7 @@ class AuthController extends Controller
             ]);
         }
 
-        // 4. Hapus token lama (opsional, agar satu device satu token)
+        // 4. opsional, agar satu device satu token
         // $user->tokens()->delete();
 
         // 5. Buat token baru

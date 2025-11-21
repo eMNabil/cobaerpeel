@@ -7,12 +7,19 @@ import AuthenticatedLayout from './layouts/AuthenticatedLayout.vue';
 import DashboardOrangTua from './Pages/DashboardOrangTua.vue';
 import JadwalPage from './Pages/JadwalPage.vue';
 import CatatanGuruPage from './Pages/CatatanGuruPage.vue';
+import DashboardGuru from './Pages/DashboardGuru.vue';
+import LandingPage2 from './Pages/LandingPage2.vue';
 
 const routes = [
     {
         path: '/',
         name: 'landing',
         component: LandingPage 
+    },
+    {
+        path: '/LandingPage2',
+        name: 'landingPage2',
+        component: LandingPage2 
     },
     {
         path: '/login',
