@@ -83,9 +83,17 @@
               leave-to-class="transform opacity-0 scale-95">
               <div v-if="isNotifOpen" ref="notifMenu"
                 class="absolute top-full right-0 mt-2 w-80 bg-white rounded-lg shadow-xl border z-50">
-                <div class="flex justify-between items-center p-4 border-b">
+                <!-- <div class="flex justify-between items-center p-4 border-b">
                   <h3 class="text-lg font-semibold text-gray-900">Notifikasi</h3>
                   <button class="text-sm text-[#78AE4E] font-medium hover:text-opacity-80">
+                    Tandai semua telah dibaca
+                  </button>
+                </div> -->
+                <div class="flex justify-between items-center p-4 border-b">
+                  <h3 class="text-lg font-semibold text-gray-900">Notifikasi</h3>
+
+                  <button @click="handleMarkAsRead"
+                    class="text-sm text-[#78AE4E] font-medium hover:text-opacity-80 transition-colors">
                     Tandai semua telah dibaca
                   </button>
                 </div>
@@ -186,6 +194,7 @@
 import { reactive } from 'vue';
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 // Impor ikon dari Heroicons (pastikan Anda sudah npm install @heroicons/vue)
 import {
@@ -225,10 +234,109 @@ const handleClickOutside = (event) => {
   }
 };
 
-const notifications = ref([
-  { id: 1, title: 'Pesan Baru', body: 'Pesan Baru dari Ibu Ica, Guru Bahasa Inggris' },
-  { id: 2, title: 'Pesan Baru', body: 'Pesan Baru dari Bapak Fakhri, Guru Bahasa Jepang' },
-]);
+// notif
+// const notifications = ref([
+//   { id: 1, title: 'Pesan Baru', body: 'Pesan Baru dari Ibu Ica, Guru Bahasa Inggris' },
+//   { id: 2, title: 'Pesan Baru', body: 'Pesan Baru dari Bapak Fakhri, Guru Bahasa Jepang' },
+// ]);
+
+// const fetchNotifications = async () => {
+//   try {
+//     const token = localStorage.getItem('user-token');
+//     // Cek jika token tidak ada di storage
+//         if (!token) {
+//             // Jangan panggil API, langsung lempar error atau return
+//             throw new Error("No token found");
+//         }
+//     const response = await axios.get('/api/notifications', {
+//       headers: { Authorization: `Bearer ${token}` }
+//     });
+//     notifications.value = response.data;
+//   } catch (error) {
+//     console.error('Gagal ambil notifikasi', error);
+//     if (error.response && error.response.status === 401) {
+//             localStorage.removeItem('user-token'); // Bersihkan token basi
+//             window.location.href = '/login'; // Paksa pindah ke login
+//         }
+//   }
+// }
+
+// // --- FUNGSI TANDAI DIBACA (INI YANG PENTING) ---
+// const handleMarkAsRead = async () => {
+//   try {
+//     const token = localStorage.getItem('user-token');
+
+//     // 1. Panggil API Backend agar tersimpan di database
+//     await axios.post('/api/notifications/read-all', {}, {
+//       headers: { Authorization: `Bearer ${token}` }
+//     });
+
+//     // 2. Kosongkan list di tampilan secara instan (biar responsif)
+//     notifications.value = [];
+
+//     // 3. Tutup dropdown (opsional)
+//     // isNotifOpen.value = false; 
+
+//   } catch (error) {
+//     console.error('Gagal menandai notifikasi', error);
+//   }
+// };
+// 1. Update Fungsi Fetch Notifikasi
+const notifications = ref([]);
+const fetchNotifications = async () => {
+    try {
+        const token = localStorage.getItem('user-token');
+        
+        // --- MODIFIKASI: Handle Mode Tanpa Login ---
+        if (!token) {
+            console.log("Mode Testing: Menggunakan notifikasi dummy.");
+            // Isi dengan dummy data agar lonceng tidak kosong saat testing
+            notifications.value = [
+                { 
+                    id: 1, 
+                    data: { title: 'Selamat Datang', message: 'Ini adalah notifikasi mode testing.' }, 
+                    created_at: new Date().toISOString() 
+                }
+            ];
+            return; // Berhenti di sini, jangan panggil API
+        }
+        // -------------------------------------------
+
+        const response = await axios.get('/api/notifications', {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        notifications.value = response.data;
+    } catch (error) {
+        console.error('Gagal ambil notifikasi', error);
+    }
+}
+
+// 2. Update Fungsi Tandai Dibaca
+const handleMarkAsRead = async () => {
+    try {
+        const token = localStorage.getItem('user-token');
+        
+        // --- MODIFIKASI: Handle Mode Tanpa Login ---
+        if (!token) {
+            notifications.value = []; // Langsung kosongkan saja di tampilan
+            return;
+        }
+        // -------------------------------------------
+
+        await axios.post('/api/notifications/read-all', {}, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        notifications.value = []; 
+        isNotifOpen.value = false;
+    } catch (error) {
+        console.error('Gagal update notifikasi', error);
+    }
+};
+// Panggil fetchNotifications saat layout dimuat
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+  fetchNotifications(); // <-- Tambahkan ini
+});
 
 document.addEventListener('click', handleClickOutside);
 

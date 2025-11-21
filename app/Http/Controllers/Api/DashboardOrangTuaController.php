@@ -204,7 +204,7 @@ class DashboardOrangTuaController extends Controller
                     $isPast = $end->isPast();
 
                     // DEBUG: Cek Kehadiran
-                    $kehadiran = \App\Models\Kehadiran::where('jadwal_sesi_id', $item->id)
+                    $kehadiran = \App\Models\Kehadiran::where('sesi_id', $item->id)
                         ->where('siswa_id', $siswa->id)
                         ->first();
 
