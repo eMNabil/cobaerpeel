@@ -8,6 +8,7 @@ import DashboardOrangTua from './Pages/DashboardOrangTua.vue';
 import JadwalPage from './Pages/JadwalPage.vue';
 import CatatanGuruPage from './Pages/CatatanGuruPage.vue';
 import LandingPage2 from './Pages/LandingPage2.vue';
+import BeritaList2 from './Pages/BeritaList2.vue';
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: '/login',
         name: 'login',
         component: LoginPage,
+    },
+    {
+        path: '/berita2',
+        name: 'berita2',
+        component: BeritaList2
     },
     {
         path: '/dashboard',

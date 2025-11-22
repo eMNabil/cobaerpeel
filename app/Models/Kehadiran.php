@@ -14,4 +14,9 @@ class Kehadiran extends Model
     {
         return $this->belongsTo(JadwalSesi::class, 'jadwal_sesi_id');
     }
+    // app/Models/Kehadiran.php
+    public function sesi()
+    {
+        return $this->belongsTo(JadwalSesi::class, 'sesi_id');
+    }
 }

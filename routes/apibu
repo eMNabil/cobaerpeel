@@ -22,7 +22,9 @@ Route::get('/dashboard-orang-tua', [DashboardOrangTuaController::class, 'index']
 Route::get('/kegiatan-terbaru', [BeritaController::class, 'getKegiatanTerbaru']);
 Route::get('/semua-berita', [BeritaController2::class, 'getAllBerita']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/berita/{slug}', [BeritaController2::class, 'getBeritaDetail']);
+Route::get('/berita/{slug}', function () {
+    return Inertia::render('BeritaDetail2');
+})->name('berita.show');
 Route::get('/api/berita/{slug}', [BeritaController2::class, 'getBeritaDetail']);
 
 Route::middleware('auth:sanctum')->group(function () {

@@ -100,19 +100,48 @@ class DashboardOrangTuaController extends Controller
             });
 
         // ⭐ TAMBAHAN: Riwayat Kehadiran (yang hilang di controller lama)
-        $riwayatKehadiran = Kehadiran::with(['jadwalSesi.guru'])
+        // $riwayatKehadiran = Kehadiran::with(['jadwalSesi.guru'])
+        //     ->where('siswa_id', $siswa->id)
+        //     ->latest()
+        //     ->take(5)
+        //     ->get()
+        //     ->map(function ($item) {
+        //         return [
+        //             'id' => $item->id,
+        //             'pelajaran' => $item->jadwalSesi ? $item->jadwalSesi->topik : 'Pelajaran',
+        //             'tanggal' => Carbon::parse($item->created_at)->translatedFormat('l, d M Y'),
+        //             'waktu' => $item->jadwalSesi
+        //                 ? Carbon::parse($item->jadwalSesi->waktu_mulai)->format('H:i')
+        //                 : '-',
+        //             'status' => $item->status
+        //         ];
+        //     });
+        $riwayatKehadiran = Kehadiran::with('sesi') // <--- PENTING: Load relasi 'sesi' (jadwal)
             ->where('siswa_id', $siswa->id)
             ->latest()
             ->take(5)
             ->get()
+            // ->map(function ($item) {
+            //     return [
+            //         'id' => $item->id,
+            //         // AMBIL DARI RELASI SESI (JADWAL), JANGAN HARDCODE
+            //         'pelajaran' => $item->sesi ? $item->sesi->topik : 'Jadwal Dihapus',
+            //         'tanggal' => $item->created_at->translatedFormat('l, d M Y'),
+            //         // Ambil waktu dari sesi
+            //         'waktu' => $item->sesi ? \Carbon\Carbon::parse($item->sesi->waktu_mulai)->format('H:i') . ' WIB' : '-',
+            //         'status' => $item->status
+            //     ];
+            // });
             ->map(function ($item) {
                 return [
                     'id' => $item->id,
-                    'pelajaran' => $item->jadwalSesi ? $item->jadwalSesi->topik : 'Pelajaran',
-                    'tanggal' => Carbon::parse($item->created_at)->translatedFormat('l, d M Y'),
-                    'waktu' => $item->jadwalSesi
-                        ? Carbon::parse($item->jadwalSesi->waktu_mulai)->format('H:i')
-                        : '-',
+                    'pelajaran' => $item->sesi ? $item->sesi->topik : 'Jadwal Dihapus',
+
+                    // PERBAIKAN DI SINI:
+                    // Ambil dari $item->sesi->waktu_mulai, BUKAN $item->created_at
+                    'tanggal' => $item->sesi ? \Carbon\Carbon::parse($item->sesi->waktu_mulai)->translatedFormat('l, d M Y') : '-',
+
+                    'waktu' => $item->sesi ? \Carbon\Carbon::parse($item->sesi->waktu_mulai)->format('H:i') . ' WIB' : '-',
                     'status' => $item->status
                 ];
             });
@@ -179,18 +208,18 @@ class DashboardOrangTuaController extends Controller
             if (!$user) {
                 $user = \App\Models\User::whereHas('role', fn($q) => $q->where('nama_role', 'Orang Tua'))->first();
             }
-            
+
             if (!$user) throw new \Exception("User Orang Tua tidak ditemukan");
 
             $siswa = \App\Models\Siswa::where('orang_tua_id', $user->id)->first();
             if (!$siswa) throw new \Exception("Data Siswa tidak ditemukan untuk user ini");
 
             // 2. Query Data dengan Error Handling per Baris
-            $jadwal = \App\Models\JadwalSesi::with(['guru', 'materi']) 
+            $jadwal = \App\Models\JadwalSesi::with(['guru', 'materi'])
                 ->orderBy('waktu_mulai', 'desc')
                 ->get()
                 ->map(function ($item) use ($siswa) {
-                    
+
                     // DEBUG: Cek Tanggal
                     try {
                         $start = $item->waktu_mulai ? \Carbon\Carbon::parse($item->waktu_mulai) : now();
@@ -200,7 +229,7 @@ class DashboardOrangTuaController extends Controller
                         $start = now();
                         $end = now();
                     }
-                    
+
                     $isPast = $end->isPast();
 
                     // DEBUG: Cek Kehadiran
@@ -224,9 +253,9 @@ class DashboardOrangTuaController extends Controller
                             'topik' => $item->topik,
                             'lokasi' => $item->lokasi ?? 'Kelas Utama',
                             'kehadiran' => $kehadiran ? $kehadiran->status : ($isPast ? 'Alpha' : '-'),
-                            'catatan' => $kehadiran ? $kehadiran->catatan : '-', 
+                            'catatan' => $kehadiran ? $kehadiran->catatan : '-',
                             'deskripsi' => $item->deskripsi ?? 'Tidak ada deskripsi.',
-                            'materi' => $materiList->map(function($m) {
+                            'materi' => $materiList->map(function ($m) {
                                 return [
                                     'nama' => $m->judul ?? 'Materi',
                                     'tipe' => 'Dokumen',
@@ -239,7 +268,6 @@ class DashboardOrangTuaController extends Controller
                 });
 
             return response()->json($jadwal);
-
         } catch (\Throwable $e) {
             // INI AKAN MENAMPILKAN PENYEBAB ERROR YANG SEBENARNYA
             return response()->json([
@@ -248,7 +276,7 @@ class DashboardOrangTuaController extends Controller
                 'file' => $e->getFile(),
                 'line' => $e->getLine(),
                 'trace' => $e->getTraceAsString() // Opsional, untuk detail lengkap
-            ], 500); 
+            ], 500);
         }
-    }   
+    }
 }

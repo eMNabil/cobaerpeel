@@ -197,12 +197,13 @@
   </div>
 </template> -->
 
+
+<!-- fix  -->
 <template>
   <div class="min-h-screen" style="background: linear-gradient(135deg, #fafaf8 0%, #f5f3f0 100%)">
     
     <div class="p-6 md:p-8 max-w-7xl mx-auto">
       
-      <!-- Header Section -->
       <header class="mb-10">
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
           <div>
@@ -214,9 +215,9 @@
           <div class="shrink-0 w-full sm:w-auto">
             <label for="nama-anak" class="text-xs font-semibold text-gray-700 uppercase tracking-wide block mb-2">Nama Anak</label>
             <button id="nama-anak"
-              class="flex items-center justify-between w-full sm:w-56 rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-sm font-medium hover:border-[#78AE4E] transition-colors duration-200">
-              <span class="text-gray-900">{{ dashboardData.nama_anak }}</span>
-              <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              class="group flex items-center justify-between w-full sm:w-56 rounded-xl border-2 border-gray-200 bg-white px-4 py-3 text-sm font-medium hover:border-[#78AE4E] hover:shadow-lg hover:bg-gray-50 transition-all duration-300">
+              <span class="text-gray-900 group-hover:text-[#78AE4E] transition-colors">{{ dashboardData.nama_anak }}</span>
+              <svg class="w-5 h-5 text-gray-400 group-hover:text-[#78AE4E] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
               </svg>
             </button>
@@ -224,13 +225,10 @@
         </div>
       </header>
 
-      <!-- Main Content Grid -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        <!-- Left Column: Main Content -->
         <main class="lg:col-span-2 space-y-8">
 
-          <!-- Summary Cards Section -->
           <section>
             <h2 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
               <span class="w-1 h-6 bg-[#78AE4E] rounded-full"></span>
@@ -238,48 +236,45 @@
             </h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
 
-              <!-- Kehadiran Card -->
-              <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+              <div class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-green-200 cursor-default">
                 <div class="flex justify-between items-start mb-4">
-                  <div class="p-3 bg-gradient-to-br from-[#78AE4E] to-[#76B340] rounded-xl">
+                  <div class="p-3 bg-gradient-to-br from-[#78AE4E] to-[#76B340] rounded-xl shadow-md group-hover:shadow-green-200 transition-shadow">
                     <CheckBadgeIcon class="w-6 h-6 text-white" />
                   </div>
-                  <span class="text-xs font-bold text-white bg-[#F9C70F] px-3 py-1.5 rounded-full">
+                  <span class="text-xs font-bold text-white bg-[#F9C70F] px-3 py-1.5 rounded-full shadow-sm">
                     {{ dashboardData.ringkasan?.persentase_kehadiran || 0 }}%
                   </span>
                 </div>
                 <div>
-                  <p class="text-gray-600 text-xs font-medium uppercase tracking-wide">Kehadiran</p>
+                  <p class="text-gray-600 text-xs font-medium uppercase tracking-wide group-hover:text-[#78AE4E] transition-colors">Kehadiran</p>
                   <p class="text-3xl font-bold text-gray-900 mt-1">{{ dashboardData.ringkasan?.kehadiran || '-' }}</p>
                   <p class="text-gray-500 text-sm mt-1">pertemuan</p>
                 </div>
               </div>
 
-              <!-- Catatan Baru Card -->
-              <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+              <div class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-orange-200 cursor-default">
                 <div class="flex justify-between items-start mb-4">
-                  <div class="p-3 bg-gradient-to-br from-[#EB9232] to-[#F0A74F] rounded-xl">
+                  <div class="p-3 bg-gradient-to-br from-[#EB9232] to-[#F0A74F] rounded-xl shadow-md group-hover:shadow-orange-200 transition-shadow">
                     <DocumentTextIcon class="w-6 h-6 text-white" />
                   </div>
-                  <span class="text-xs font-bold text-white bg-[#EB9232] px-3 py-1.5 rounded-full">Baru</span>
+                  <span class="text-xs font-bold text-white bg-[#EB9232] px-3 py-1.5 rounded-full shadow-sm">Baru</span>
                 </div>
                 <div>
-                  <p class="text-gray-600 text-xs font-medium uppercase tracking-wide">Catatan</p>
+                  <p class="text-gray-600 text-xs font-medium uppercase tracking-wide group-hover:text-[#EB9232] transition-colors">Catatan</p>
                   <p class="text-3xl font-bold text-gray-900 mt-1">{{ dashboardData.ringkasan?.catatan_baru || 0 }}</p>
                   <p class="text-gray-500 text-sm mt-1">dari guru</p>
                 </div>
               </div>
 
-              <!-- Jadwal Berikutnya Card -->
-              <div class="bg-white p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow border border-gray-100">
+              <div class="group bg-white p-6 rounded-2xl shadow-sm border border-gray-100 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:border-yellow-200 cursor-default">
                 <div class="flex justify-between items-start mb-4">
-                  <div class="p-3 bg-gradient-to-br from-[#F9C70F] to-[#FFD700] rounded-xl">
+                  <div class="p-3 bg-gradient-to-br from-[#F9C70F] to-[#FFD700] rounded-xl shadow-md group-hover:shadow-yellow-200 transition-shadow">
                     <CalendarDaysIcon class="w-6 h-6 text-gray-900" />
                   </div>
                 </div>
                 <div>
-                  <p class="text-gray-600 text-xs font-medium uppercase tracking-wide">Jadwal Berikutnya</p>
-                  <p class="text-2xl font-bold text-gray-900 mt-1">{{ dashboardData.ringkasan?.jadwal_berikutnya || '-' }}</p>
+                  <p class="text-gray-600 text-xs font-medium uppercase tracking-wide group-hover:text-yellow-600 transition-colors">Jadwal Berikutnya</p>
+                  <p class="text-2xl font-bold text-gray-900 mt-1 truncate">{{ dashboardData.ringkasan?.jadwal_berikutnya || '-' }}</p>
                   <p class="text-gray-500 text-sm mt-1">{{ dashboardData.ringkasan?.tanggal_jadwal_berikutnya || '-' }}</p>
                 </div>
               </div>
@@ -287,53 +282,49 @@
             </div>
           </section>
 
-          <!-- Tabs Section -->
-          <section class="bg-white rounded-2xl shadow-sm border border-gray-100">
+          <section class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
             <div class="p-6 md:p-7">
               <h2 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
                 <span class="w-1 h-6 bg-[#78AE4E] rounded-full"></span>
                 Riwayat & Catatan
               </h2>
 
-              <!-- Tab Navigation -->
               <div class="border-b border-gray-200 mb-6">
                 <nav class="flex gap-8">
                   <button @click="activeTab = 'riwayat'" :class="[
                     activeTab === 'riwayat'
                       ? 'border-b-2 border-[#78AE4E] text-[#78AE4E]'
-                      : 'border-b-2 border-transparent text-gray-600 hover:text-gray-900',
-                    'py-3 px-1 font-semibold text-sm transition-colors'
+                      : 'border-b-2 border-transparent text-gray-600 hover:text-[#78AE4E] hover:bg-green-50/50 rounded-t-lg',
+                    'py-3 px-3 font-semibold text-sm transition-all duration-200'
                   ]">
                     Riwayat Kehadiran
                   </button>
                   <button @click="activeTab = 'catatan'" :class="[
                     activeTab === 'catatan'
                       ? 'border-b-2 border-[#78AE4E] text-[#78AE4E]'
-                      : 'border-b-2 border-transparent text-gray-600 hover:text-gray-900',
-                    'py-3 px-1 font-semibold text-sm transition-colors'
+                      : 'border-b-2 border-transparent text-gray-600 hover:text-[#78AE4E] hover:bg-green-50/50 rounded-t-lg',
+                    'py-3 px-3 font-semibold text-sm transition-all duration-200'
                   ]">
                     Catatan Guru
                   </button>
                 </nav>
               </div>
 
-              <!-- Tab Content -->
-              <div class="space-y-4">
-                <div v-if="activeTab === 'riwayat'" class="space-y-4">
+              <div class="space-y-4 min-h-[300px]"> <div v-if="activeTab === 'riwayat'" class="space-y-4">
                   <div v-for="item in riwayatKehadiran" :key="item.id"
-                    class="bg-gradient-to-r from-gray-50 to-white border border-gray-200 rounded-xl p-5 flex justify-between items-start hover:border-[#78AE4E] hover:shadow-md transition-all">
+                    class="group bg-white border border-gray-200 rounded-xl p-5 flex justify-between items-start hover:border-[#78AE4E] hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 cursor-pointer">
                     <div class="space-y-2">
-                      <h4 class="font-bold text-gray-900">{{ item.pelajaran }}</h4>
-                      <div class="flex items-center gap-2 text-sm text-gray-600">
+                      <h4 class="font-bold text-gray-900 group-hover:text-[#78AE4E] transition-colors">{{ item.pelajaran }}</h4>
+                      <div class="flex items-center gap-2 text-sm text-gray-500 group-hover:text-gray-700">
                         <CalendarDaysIcon class="w-4 h-4" />
                         <span>{{ item.tanggal }}</span>
                       </div>
-                      <div class="flex items-center gap-2 text-sm text-gray-600">
+                      <div class="flex items-center gap-2 text-sm text-gray-500 group-hover:text-gray-700">
                         <ClockIcon class="w-4 h-4" />
                         <span>{{ item.waktu }}</span>
                       </div>
                     </div>
-                    <span class="bg-[#78AE4E] text-white text-xs font-bold px-4 py-2 rounded-lg whitespace-nowrap">
+                    <span class="bg-gray-100 text-gray-600 group-hover:bg-[#78AE4E] group-hover:text-white transition-colors duration-300 text-xs font-bold px-4 py-2 rounded-lg whitespace-nowrap shadow-sm">
                       {{ item.status }}
                     </span>
                   </div>
@@ -341,20 +332,22 @@
 
                 <div v-if="activeTab === 'catatan'" class="space-y-5">
                   <div v-for="catatan in catatanTerbaru" :key="catatan.id" 
-                    class="border-l-4 border-[#78AE4E] pl-4 py-2">
+                    class="border-l-4 border-[#78AE4E] pl-5 py-3 pr-3 hover:bg-green-50/30 rounded-r-xl transition-colors duration-300 cursor-default">
                     <div class="flex justify-between items-start mb-2">
                       <p class="font-bold text-gray-900">{{ catatan.pelajaran }}</p>
-                      <span class="text-xs text-gray-500 font-medium">{{ catatan.tanggal }}</span>
+                      <span class="text-xs text-gray-500 font-medium bg-gray-100 px-2 py-1 rounded">{{ catatan.tanggal }}</span>
                     </div>
                     <p class="text-sm text-gray-700 leading-relaxed">{{ catatan.isi }}</p>
-                    <div class="flex items-center space-x-1 mt-3">
-                      <UserCircleIcon class="w-4 h-4 text-[#78AE4E]" />
+                    <div class="flex items-center space-x-2 mt-3">
+                      <div class="bg-gray-100 p-1 rounded-full">
+                        <UserCircleIcon class="w-4 h-4 text-[#78AE4E]" />
+                      </div>
                       <span class="text-xs text-gray-600 font-medium">{{ catatan.guru }}</span>
                     </div>
                   </div>
 
                   <router-link to="/dashboard-catatan"
-                    class="block w-full text-center py-3 px-4 border-2 border-[#78AE4E] text-[#78AE4E] rounded-xl hover:bg-green-50 text-sm font-bold transition-colors mt-4">
+                    class="block w-full text-center py-3 px-4 border-2 border-[#78AE4E] text-[#78AE4E] rounded-xl hover:bg-[#78AE4E] hover:text-white hover:shadow-md active:scale-[0.98] text-sm font-bold transition-all duration-200 mt-6">
                     Lihat Catatan Lengkap →
                   </router-link>
                 </div>
@@ -365,30 +358,32 @@
 
         </main>
 
-        <!-- Right Column: Sidebar -->
         <aside class="lg:col-span-1">
-          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 sticky top-6">
+          <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-7 sticky top-6 transition-all hover:shadow-md">
             <h3 class="text-lg font-bold text-gray-900 mb-6 flex items-center gap-2">
               <span class="w-1 h-6 bg-[#78AE4E] rounded-full"></span>
               Jadwal Mendatang
             </h3>
 
-            <div class="space-y-6">
-              <div v-for="jadwal in jadwalMendatang" :key="jadwal.id" class="border-b border-gray-100 pb-5 last:border-0 last:pb-0">
+            <div class="space-y-2">
+              <div v-for="jadwal in jadwalMendatang" :key="jadwal.id" 
+                   class="group p-3 -mx-3 rounded-xl hover:bg-gray-50 transition-colors duration-200 cursor-default">
                 <div class="flex gap-3">
-                  <div class="p-2.5 bg-gradient-to-br from-[#78AE4E] to-[#76B340] rounded-lg h-fit">
-                    <CalendarDaysIcon class="w-5 h-5 text-white" />
+                  <div class="p-2.5 bg-gray-100 group-hover:bg-green-100 rounded-lg h-fit transition-colors duration-300">
+                    <CalendarDaysIcon class="w-5 h-5 text-[#78AE4E]" />
                   </div>
                   <div class="flex-1 min-w-0">
-                    <p class="font-bold text-gray-900 text-sm">{{ jadwal.pelajaran }}</p>
+                    <p class="font-bold text-gray-900 text-sm group-hover:text-[#78AE4E] transition-colors">{{ jadwal.pelajaran }}</p>
                     <p class="text-xs text-gray-600 mt-1">{{ jadwal.tanggal }}</p>
-                    <div class="flex items-center gap-1 mt-2">
-                      <ClockIcon class="w-3.5 h-3.5 text-gray-400" />
-                      <span class="text-xs text-gray-600">{{ jadwal.waktu }}</span>
-                    </div>
-                    <div class="flex items-center gap-1 mt-1">
-                      <UserIcon class="w-3.5 h-3.5 text-gray-400" />
-                      <span class="text-xs text-gray-600">{{ jadwal.guru }}</span>
+                    <div class="flex items-center gap-3 mt-2">
+                      <div class="flex items-center gap-1">
+                        <ClockIcon class="w-3.5 h-3.5 text-gray-400" />
+                        <span class="text-xs text-gray-500">{{ jadwal.waktu }}</span>
+                      </div>
+                      <div class="flex items-center gap-1">
+                        <UserIcon class="w-3.5 h-3.5 text-gray-400" />
+                        <span class="text-xs text-gray-500">{{ jadwal.guru }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -396,7 +391,7 @@
             </div>
 
             <router-link to="/dashboard-jadwal"
-              class="block w-full text-center py-3 px-4 border-2 border-[#78AE4E] text-[#78AE4E] rounded-xl hover:bg-green-50 text-sm font-bold transition-colors mt-6">
+              class="block w-full text-center py-3 px-4 border-2 border-[#78AE4E] text-[#78AE4E] rounded-xl hover:bg-[#78AE4E] hover:text-white hover:shadow-md active:scale-[0.98] text-sm font-bold transition-all duration-200 mt-6">
               Lihat Jadwal Lengkap →
             </router-link>
           </div>
@@ -408,8 +403,9 @@
   </div>
 </template>
 
-
 <script setup>
+// Bagian Script tidak ada perubahan logika,
+// Tetap sama seperti sebelumnya.
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 import {
@@ -421,15 +417,11 @@ import {
   UserIcon
 } from '@heroicons/vue/24/outline';
 
-// State untuk tab yang aktif
 const activeTab = ref('catatan');
-
-// DEFINISIKAN SEMUA VARIABEL DI AWAL (SEBELUM DIGUNAKAN)
 const catatanTerbaru = ref([]);
 const jadwalMendatang = ref([]);
 const riwayatKehadiran = ref([]);
 
-// State Data Dashboard dengan default values
 const dashboardData = ref({
   nama_anak: 'Memuat...',
   ringkasan: {
@@ -443,44 +435,19 @@ const dashboardData = ref({
 
 const fetchDashboardData = async () => {
   try {
-    // Pastikan endpoint benar dan mengembalikan JSON
     const response = await axios.get('/api/dashboard-orang-tua', {
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      }
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
     });
     
-    console.log('Dashboard data loaded:', response.data);
-
-    // Validasi response adalah object, bukan HTML string
     if (typeof response.data === 'object' && response.data !== null) {
-      dashboardData.value = {
-        ...dashboardData.value,
-        ...response.data
-      };
-
-      // Isi data array dengan fallback ke array kosong
+      dashboardData.value = { ...dashboardData.value, ...response.data };
       catatanTerbaru.value = response.data.catatan_terbaru || [];
       jadwalMendatang.value = response.data.jadwal_mendatang || [];
       riwayatKehadiran.value = response.data.riwayat_kehadiran || [];
-    } else {
-      console.error('API mengembalikan format yang salah (bukan JSON)');
     }
-
   } catch (error) {
     console.error("Gagal memuat dashboard:", error);
-    
-    // Handle berbagai jenis error
-    if (error.response) {
-      if (error.response.status === 401) {
-        window.location.href = '/login';
-      } else {
-        console.error('Server error:', error.response.status);
-      }
-    } else if (error.request) {
-      console.error('Network error - tidak ada response dari server');
-    }
+    if (error.response && error.response.status === 401) window.location.href = '/login';
   }
 };
 
@@ -488,7 +455,3 @@ onMounted(() => {
   fetchDashboardData();
 });
 </script>
-
-<style scoped>
-/* Styling ditangani oleh Tailwind */
-</style>
